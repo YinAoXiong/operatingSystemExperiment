@@ -25,10 +25,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        widget.cpp
+        widget.cpp \
+    qpushbuttonreserve.cpp \
+    jcb.cpp \
+    pcb.cpp \
+    qpushbuttonready.cpp \
+    ramwidget.cpp
 
 HEADERS += \
-        widget.h
+        widget.h \
+    qpushbuttonreserve.h \
+    jcb.h \
+    pcb.h \
+    qpushbuttonready.h \
+    schedulingalgorithm.h \
+    controlblock.h \
+    queuebutton.h \
+    ramwidget.h \
+    data.h
 
 FORMS += \
         widget.ui
