@@ -4,7 +4,7 @@ QPushButtonReserve::QPushButtonReserve(JCB * jcb)
 {
     this->jcb=jcb;
     connect(this,QPushButtonReserve::clicked,this,QPushButtonReserve::showDetails);
-    this->setText(tr("%1\n点击查看详情").arg(jcb->getName()));
+    this->setText(tr("%1,JID:%2\n点击查看详情").arg(jcb->getName()).arg(jcb->getId()));
 }
 
 QPushButtonReserve::~QPushButtonReserve()

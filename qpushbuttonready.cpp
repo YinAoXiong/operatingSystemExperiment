@@ -4,7 +4,7 @@ QPushButtonReady::QPushButtonReady(PCB * pcb)
 {
     this->pcb=pcb;
     connect(this,QPushButtonReady::clicked,this,QPushButtonReady::showDetails);
-    this->setText(tr("%1\n点击查看详情").arg(pcb->getName()));
+    this->setText(tr("%1,PID:%2\n点击查看详情").arg(pcb->getName()).arg(pcb->getId()));
 }
 
 QPushButtonReady::~QPushButtonReady()

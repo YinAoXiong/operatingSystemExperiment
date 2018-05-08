@@ -32,6 +32,8 @@ Widget::Widget(QWidget *parent) :
     //触发时间间隔为1s
     systemTimer->setInterval(1000);
     connect(systemTimer,QTimer::timeout,this,Widget::receiveTimer);
+    //默认不启用建筑作业按钮，开机后启用
+    ui->pushButtonPushJob->setEnabled(false);
 
 
 //    JCB * jcb=new JCB("test",1,100,100);
@@ -80,6 +82,8 @@ void Widget::on_pushButtonPushJob_clicked()
 void Widget::on_pushButtonTurnOn_clicked()
 {
     systemTimer->start();
+    //启用添加作业按钮
+    ui->pushButtonPushJob->setEnabled(true);
     //一旦开机后开机按钮无法使用，同时启用关机按钮
     ui->pushButtonTurnOn->setEnabled(false);
     ui->pushButtonTurnOff->setEnabled(true);
@@ -135,8 +139,46 @@ void Widget::receiveTimer()
 
 void Widget::on_pushButtonTurnOff_clicked()
 {
-    //TODO 关机后的置零收尾工作
+    //查看系统中是否存在尚未处理的工作
+    if(!(readyQueue.empty()&&reserveQueue.empty()&&hangQueue.empty()))
+    {
+        QString str=tr("系统中仍有任务尚未处理是否强制关机");
+        QMessageBox::StandardButton response=QMessageBox::warning(NULL,tr("警告"),str,QMessageBox::No|QMessageBox::Yes);
+        if(response==QMessageBox::No)
+        {
+            return;
+        }
+    }
+    //释放资源
 
+    while (!readyQueue.empty()) {
+        removeProcess();
+    }
+    if(!hangQueue.empty())
+    {
+        for(auto item:hangQueue)
+            delete item;
+        hangQueue.clear();
+    }
+    if(!reserveQueue.empty())
+    {
+        for(auto item:reserveQueue)
+            delete item;
+        reserveQueue.clear();
+    }
+    //重置jcb，pcb静态变量
+    JCB::JID=0;
+    PCB::PID=0;
+
+    //停掉系统时钟,并重置系统时间
+    systemTimer->stop();
+    systemTime=0;
+    //调整时钟显示
+    ui->lcdNumberSystem->display(88888);
+    ui->lcdNumber->display(888);
+
+    //停用添加作业按钮
+    ui->pushButtonPushJob->setEnabled(false);
     //一旦关机后关机按钮无法使用，同时启用开机按钮
     ui->pushButtonTurnOff->setEnabled(false);
     ui->pushButtonTurnOn->setEnabled(true);
