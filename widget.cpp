@@ -93,6 +93,8 @@ void Widget::on_pushButtonTurnOn_clicked()
     ui->comboBoxJSA->setEnabled(false);
     ui->comboBoxPSA->setEnabled(false);
     ui->lineEditAllRAM->setEnabled(false);
+    //初始化剩余内存大小
+    restRAM=ui->lineEditAllRAM->text().toULongLong();
     //初始化内存描述map
     ull RAMsize=ui->lineEditAllRAM->text().toULongLong();
     emptyRAM=new map<long long,ull>();
@@ -241,7 +243,6 @@ void Widget::jobSchedulProcess()
 
     QPushButtonReserve * bestJob=reserveQueue[0];
 
-    //TODO
     long long key=RAMIsEnough(bestJob);
     //判断内存是否有空闲空间
     if(key>=0)
@@ -277,6 +278,26 @@ long long Widget::RAMIsEnough(QueueButton *button)
         }
 
     }
+    if(needRAM<=restRAM)
+    {
+        map<long long,colorBlock> * newUseRAM=new map<long long,colorBlock>();
+        long long index=0;
+        for(auto &item:*(useRAM))
+        {
+            newUseRAM->insert(make_pair(index,colorBlock(item.second.RAMsize,item.second.color)));
+            index+=item.second.RAMsize;
+        }
+        delete useRAM;
+        useRAM=newUseRAM;
+        ramWidget->setuseRAM(useRAM);
+        ramWidget->update();
+        map<long long,ull> * newEmptyBlock=new map<long long,ull>();
+        ull allRAM=ui->lineEditAllRAM->text().toULongLong();
+        newEmptyBlock->insert(make_pair(allRAM-restRAM,restRAM));
+        delete emptyRAM;
+        emptyRAM=newEmptyBlock;
+        return allRAM-restRAM;
+    }
     return -1;
 }
 
@@ -284,8 +305,10 @@ void Widget::addProcess(QPushButtonReady *readyButton,long long index)
 {
     //获取空闲块的大小
     ull emptyBlockSize=(*emptyRAM)[index];
-    //实际需要大小d 的大小
+    //实际需要大小的大小
     ull realyNeed = readyButton->getControlBlock()->getNeedRAM();
+    //更新剩余内存大小
+    restRAM-=realyNeed;
     ramWidget->beginRAM=index;
     ramWidget->ramsize=realyNeed;
     emptyRAM->erase(index);
@@ -322,6 +345,9 @@ void Widget::addProcess(QPushButtonReady *readyButton,long long index)
 void Widget::removeProcess()
 {
     QPushButtonReady * readyButton=readyQueue[0];
+    ull RAMSize=readyButton->getControlBlock()->getNeedRAM();
+    //更新剩余内存大小
+    restRAM+=RAMSize;
     readyQueue.erase(readyQueue.begin());
     //释放内存
     freeRAM(readyButton);
@@ -466,6 +492,8 @@ void Widget::breakProcess()
     tempPCB->status=PCB::ready;
     ui->horizontalLayoutRun->removeWidget(tempWidget);
     ui->horizontalLayoutRun->addWidget(readyQueue[0]);
+    tempPCB =(PCB *) readyQueue[0]->getControlBlock();
+    tempPCB->status=PCB::run;
     //清除就绪队列中的button
     while (readyQVBoxLayout->count()) {
         QWidget * tempWidget=readyQVBoxLayout->itemAt(0)->widget();

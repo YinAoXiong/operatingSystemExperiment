@@ -82,6 +82,8 @@ private:
     map<long long,ull> * emptyRAM;
     //内存绘制情况map,包括起始位置以及显示的颜色
     map<long long,colorBlock> * useRAM;
+    //用于储存总内存剩余大小
+    ull restRAM;
     //用于判断内存是否足够,如果足够返回内存起始地址，不足返回-1
     long long RAMIsEnough(QueueButton * );
     //一个进程运行结束后执行的函数
