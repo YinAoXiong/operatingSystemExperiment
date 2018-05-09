@@ -1,4 +1,4 @@
-#ifndef QUEUEBUTTON_H
+﻿#ifndef QUEUEBUTTON_H
 #define QUEUEBUTTON_H
 #include <QPushButton>
 #include "controlblock.h"

@@ -1,4 +1,4 @@
-#include "widget.h"
+﻿#include "widget.h"
 #include <QApplication>
 typedef unsigned long long ull;
 

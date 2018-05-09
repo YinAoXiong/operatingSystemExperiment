@@ -1,4 +1,4 @@
-#ifndef QPUSHBUTTONREADY_H
+﻿#ifndef QPUSHBUTTONREADY_H
 #define QPUSHBUTTONREADY_H
 
 #include <QMessageBox>

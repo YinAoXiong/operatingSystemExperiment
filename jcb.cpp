@@ -1,4 +1,4 @@
-#include "jcb.h"
+﻿#include "jcb.h"
 
 JCB::JCB(QString name,unsigned int priority, ull needRAM,ull needTime,ull beginTime)
 {

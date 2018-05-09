@@ -1,4 +1,4 @@
-#include "widget.h"
+﻿#include "widget.h"
 #include "ui_widget.h"
 
 Widget::Widget(QWidget *parent) :
@@ -253,7 +253,7 @@ void Widget::jobSchedulProcess()
         PCB * pcb=new PCB(bestJCB->getName(),bestJCB->getPriority(),bestJCB->getNeedRAM(),bestJCB->getNeedTime(),key,systemTime);
         QPushButtonReady * readyButton=new QPushButtonReady(pcb);
         //连接好信号和槽函数
-        connect(readyButton,QPushButtonReady::doHang,this,Widget::doHang);
+        connect(readyButton,&QPushButtonReady::doHang,this,&Widget::doHang);
 
         connect(readyButton,&QPushButtonReady::RHang,this,&Widget::RHang);
         //添加到就绪队列

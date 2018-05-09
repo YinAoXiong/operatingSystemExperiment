@@ -1,4 +1,4 @@
-#ifndef CONTROLBLOCK_H
+﻿#ifndef CONTROLBLOCK_H
 #define CONTROLBLOCK_H
 #include <QString>
 

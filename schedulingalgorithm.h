@@ -1,4 +1,4 @@
-#ifndef SCHEDULINGALGORITHM_H
+﻿#ifndef SCHEDULINGALGORITHM_H
 #define SCHEDULINGALGORITHM_H
 #include "queuebutton.h"
 

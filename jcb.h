@@ -1,4 +1,4 @@
-#ifndef JCB_H
+﻿#ifndef JCB_H
 #define JCB_H
 #include <QString>
 #include "controlblock.h"

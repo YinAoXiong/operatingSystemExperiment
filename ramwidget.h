@@ -1,4 +1,4 @@
-#ifndef RAMWIDGET_H
+﻿#ifndef RAMWIDGET_H
 #define RAMWIDGET_H
 typedef unsigned long long ull;
 

@@ -1,4 +1,4 @@
-#ifndef QPUSHBUTTONRESERVE_H
+﻿#ifndef QPUSHBUTTONRESERVE_H
 #define QPUSHBUTTONRESERVE_H
 #include <QMessageBox>
 #include "queuebutton.h"

@@ -1,4 +1,4 @@
-#include "qpushbuttonready.h"
+﻿#include "qpushbuttonready.h"
 
 QPushButtonReady::QPushButtonReady(PCB * pcb)
 {

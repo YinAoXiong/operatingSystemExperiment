@@ -1,4 +1,4 @@
-#include "qpushbuttonreserve.h"
+﻿#include "qpushbuttonreserve.h"
 
 QPushButtonReserve::QPushButtonReserve(JCB * jcb)
 {

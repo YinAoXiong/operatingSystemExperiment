@@ -1,4 +1,4 @@
-#include "pcb.h"
+﻿#include "pcb.h"
 
 PCB::PCB(QString name,unsigned int priority, ull needRAM,ull untillNeedTime,ull theBeginOfRAM,ull beginTime)
 {
