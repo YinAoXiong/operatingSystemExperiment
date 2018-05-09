@@ -96,6 +96,8 @@ private:
     void removeProcess();
     //用于处理内存的释放
     void freeRAM(QPushButtonReady *);
+    //进程中断函数
+    void breakProcess();
 };
 
 #endif // WIDGET_H

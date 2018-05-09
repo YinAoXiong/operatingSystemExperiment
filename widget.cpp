@@ -171,6 +171,8 @@ void Widget::on_pushButtonTurnOff_clicked()
     //重置jcb，pcb静态变量
     JCB::JID=0;
     PCB::PID=0;
+    //重置运行标志
+    openRunTimeClock=false;
 
     //停掉系统时钟,并重置系统时间
     systemTimer->stop();
@@ -239,6 +241,7 @@ void Widget::jobSchedulProcess()
 
     QPushButtonReserve * bestJob=reserveQueue[0];
 
+    //TODO
     long long key=RAMIsEnough(bestJob);
     //判断内存是否有空闲空间
     if(key>=0)
@@ -337,13 +340,10 @@ void Widget::processSchedulProcess()
         openRunTimeClock=true;
     }else
     {
-        QWidget * tempWidget=ui->horizontalLayoutRun->itemAt(0)->widget();
-        tempWidget->setParent(NULL);
-        QPushButtonReady * button=(QPushButtonReady *)tempWidget;
-        PCB * tempPCB=(PCB *)button->getControlBlock();
-        tempPCB->status=PCB::ready;
-        ui->horizontalLayoutRun->removeWidget(tempWidget);
-        ui->horizontalLayoutRun->addWidget(readyQueue[0]);
+        if((QPushButtonReady *)ui->horizontalLayoutRun->itemAt(0)->widget()!=readyQueue[0])
+        {
+            breakProcess();
+        }
     }
     //将需要运行的程序设置为运行状态
     PCB * tempPCB=(PCB *) readyQueue[0]->getControlBlock();
@@ -455,4 +455,26 @@ void Widget::RHang(QPushButtonReady * button)
         addProcess(button,index);
     }
 
+}
+
+void Widget::breakProcess()
+{
+    QWidget * tempWidget= ui->horizontalLayoutRun->itemAt(0)->widget();
+    tempWidget->setParent(NULL);
+    QPushButtonReady * button=(QPushButtonReady *)tempWidget;
+    PCB * tempPCB=(PCB *)button->getControlBlock();
+    tempPCB->status=PCB::ready;
+    ui->horizontalLayoutRun->removeWidget(tempWidget);
+    ui->horizontalLayoutRun->addWidget(readyQueue[0]);
+    //清除就绪队列中的button
+    while (readyQVBoxLayout->count()) {
+        QWidget * tempWidget=readyQVBoxLayout->itemAt(0)->widget();
+        tempWidget->setParent(NULL);
+        readyQVBoxLayout->removeWidget(tempWidget);
+    }
+    //将剩余的pcb显示
+    for(int i=1;i<readyQueue.size();++i)
+    {
+        readyQVBoxLayout->addWidget(readyQueue[i]);
+    }
 }
