@@ -6,6 +6,8 @@ Widget::Widget(QWidget *parent) :
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    setWindowTitle(tr("操作系统演示"));
+    setWindowIcon(QIcon(QStringLiteral(":/icon.png")));
     //未开机时设置关机按钮不可用
     ui->pushButtonTurnOff->setEnabled(false);
     //为队列所在的scorll area 添加 widget和layout

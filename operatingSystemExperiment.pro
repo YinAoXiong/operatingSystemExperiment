@@ -46,3 +46,7 @@ HEADERS += \
 
 FORMS += \
         widget.ui
+
+RESOURCES += \
+    icon.qrc
+RC_FILE += app.rc
