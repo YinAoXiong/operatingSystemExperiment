@@ -33,7 +33,7 @@ Widget::Widget(QWidget *parent) :
     systemTimer->setSingleShot(false);
     //触发时间间隔为1s
     systemTimer->setInterval(1000);
-    connect(systemTimer,QTimer::timeout,this,Widget::receiveTimer);
+    connect(systemTimer,&QTimer::timeout,this,&Widget::receiveTimer);
     //默认不启用建筑作业按钮，开机后启用
     ui->pushButtonPushJob->setEnabled(false);
 
@@ -255,7 +255,7 @@ void Widget::jobSchedulProcess()
         //连接好信号和槽函数
         connect(readyButton,QPushButtonReady::doHang,this,Widget::doHang);
 
-        connect(readyButton,QPushButtonReady::RHang,this,Widget::RHang);
+        connect(readyButton,&QPushButtonReady::RHang,this,&Widget::RHang);
         //添加到就绪队列
         addProcess(readyButton,key);
         //删除后备队列button对象
